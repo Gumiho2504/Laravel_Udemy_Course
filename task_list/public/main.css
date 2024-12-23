@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+    @apply rounded-md px-2 py-1 font-medium shadow-sm ring-1 ring-slate-700/10 text-slate-700 hover:bg-slate-50;
+}
+
+.link {
+
+    @apply font-meduim text-gray-700 underline decoration-pink-500;
+}
+

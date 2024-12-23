@@ -1,0 +1,21 @@
+version: "3.1"
+
+services:
+    mysql:
+        image: mysql:latest
+        # Uncomment below when on Mac M1
+        #platform: linux/arm64/v8
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: gumihodb
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        ports:
+            - "3307:3306" # Map the port of database in docker to local machine
+    adminer:
+        image: adminer # Simple PHP script for database management
+        restart: always
+        ports:
+            - 8080:8080 # Able to visit this database management tool
