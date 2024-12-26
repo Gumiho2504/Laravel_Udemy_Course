@@ -15,6 +15,7 @@ class EventController extends Controller
 
     public function __construct(){
         //$this->middleware("auth");
+
     }
 
     private  array $relations = ['user','attendees','attendees.user'];
@@ -22,8 +23,7 @@ class EventController extends Controller
     {
         //$events = Event::all();
 
-
-
+        Gate::authorize('viewAny', Event::class);
         $query = $this->loadRelationships(Event::query());
 
         return EventResource::collection($query->latest()->paginate());
@@ -34,7 +34,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-
         $event = Event::create(
             [
                 ...$request->validate([
@@ -66,10 +65,13 @@ class EventController extends Controller
         // if(Gate::denies('update-event', arguments: $event)){
         //     abort(403,'You are not authorized to update this event');
         // }
-dump($event->id);
-        //$this->authorize('update-event', $event);
-        !Gate::authorize('update-event', $event);
 
+        //$this->authorize('update-event', $event);
+       // Gate::authorize('update-event', $event);
+       //dd($request->user()->id);
+       Gate::authorize('update', $event);
+
+       // The action is authorized...
         $event->update($request->validate(
             [
                 'name' => 'sometimes|string|max:255',
