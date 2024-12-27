@@ -15,10 +15,10 @@ Route::post('/logout', [AuthController::class,'logout'])->name('logout')
 ->middleware('auth:sanctum');
 
 Route::apiResource('events', EventController::class)->only(['index', 'show']);
-Route::apiResource('events', EventController::class)->middleware('auth:sanctum')->except(['index','show']);
+Route::apiResource('events', EventController::class)->middleware(['auth:sanctum','throttle:api'])->except(['index','show']);
 
 
 Route::apiResource('events.attendees', AttendeeController::class)
-    ->scoped()->only(methods: ['delete'])->middleware('auth:sanctum');
+    ->scoped()->only(['store', 'destroy'])->middleware('auth:sanctum');
 Route::apiResource('events.attendees', AttendeeController::class)
-    ->scoped()->except(methods:['update','delete']);
+    ->scoped()->only(['index', 'show']);

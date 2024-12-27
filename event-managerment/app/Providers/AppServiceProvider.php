@@ -7,6 +7,9 @@ use App\Models\Event;
 use App\Models\User;
 use App\Policies\AttendeePolicy;
 use App\Policies\EventPolicy;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +28,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        RateLimiter::for('api', callback: function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+
         Gate::policy(Event::class , EventPolicy::class);
         // Gate::define('update-event',callback: function(User $user,Event $event) {
         //     return $user->id === $event->user_id;
