@@ -10,5 +10,5 @@ class Work extends Model
     /** @use HasFactory<\Database\Factories\WorkFactory> */
     use HasFactory;
     public static array $category = ["design","finance","hr","it","marketing","sales","management"];
-    public static array $experience_lavels =  [ 'internship','entry', 'intermediate','junior', 'senior'];
+    public static array $experience_levels =  [ 'internship','entry', 'intermediate','junior', 'senior'];
 }
