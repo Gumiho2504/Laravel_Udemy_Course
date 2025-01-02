@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Job;
+use App\Models\Work as Job;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +23,7 @@ class WorkFactory extends Factory
             "salary" => fake()->numberBetween(5_000,150_000),
             "location" => fake()->city,
             "category" => fake()->randomElement(array: Job::$category),
-            "experience_levels" => fake()->randomElement(Job::$experience_lavels),
+            "experience_levels" => fake()->randomElement(Job::$experience_levels),
         ];
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Job;
+use App\Models\Employer;
+
 use App\Models\User;
 use App\Models\Work;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,13 +16,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        //  User::factory()->count(100)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // $users = User::all()->shuffle();
+        // // User::factory()->create([
 
-        Work::factory()->count(30)->create();
+        // //     'name' => 'Test User',
+        // //     'email' => 'test@example.com',
+        // // ]);
+
+        // for( $i = 0; $i < 20; $i++ ){
+        //     Employer::factory()->create([
+        //         "user_id"=> $users->pop()->id,
+        //     ]);
+        // }
+
+        $employers = Employer::all();
+
+        for( $i = 0; $i < 1000; $i++ ){
+            Work::factory()->create([
+                'employer_id' => $employers->random()->id,
+            ]);
+        }
+
     }
 }

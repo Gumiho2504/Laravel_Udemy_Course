@@ -1,29 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\Work as Job;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class WorkController extends Controller
+class AuthController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $filters = request()->only(
-            'search',
-            'min_salary',
-            'max_salary',
-            'experience_levels',
-            'category',
-        );
-
-        $jobs = Job::filter($filters);
-
-        dump(request()->all());
-        return view('jobs.index' , data: ['jobs' => $jobs->paginate(10)]);
+        //
     }
 
     /**
@@ -31,7 +20,7 @@ class WorkController extends Controller
      */
     public function create()
     {
-        //
+        return view("auth.create");
     }
 
     /**
@@ -39,17 +28,15 @@ class WorkController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Job $job)
+    public function show(string $id)
     {
-        return view('jobs.show',[
-            'job'=> $job->load('employer')
-        ]);
+        //
     }
 
     /**

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->unsignedInteger('salary');
             $table->string('location');
             $table->string('category');
-            $table->enum('experience_levels', \App\Models\Job::$experience_lavels);
+            $table->enum('experience_levels', \App\Models\Work::$experience_levels);
+            $table->foreignIdFor(\App\Models\Employer::class)->constrained();
             $table->timestamps();
         });
     }

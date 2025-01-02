@@ -20,6 +20,11 @@ class RadioGroup extends Component
     /**
      * Get the view / contents that represent the component.
      */
+
+     public function optionsWithLabels(): array{
+        return array_is_list($this->options) ?
+        array_combine(array_keys($this->options), array_values($this->options)) : $this->options;
+     }
     public function render(): View|Closure|string
     {
        // $this->options = Work::$experience_lavels;
