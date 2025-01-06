@@ -40,7 +40,10 @@
 
     @forelse ($jobs as $job)
         <x-job-card class="mb-4" :$job>
-        <x-link-button :href="route('jobs.show', $job)">View</x-link-button>
+            <div class="flex justify-between">
+                <x-link-button :href="route('jobs.show', $job)">View</x-link-button>
+                <x-link-button :href="route('jobs.application.create', $job)">Apply</x-link-button>
+            </div>
         </x-job-card>
     @empty
         <x-card>

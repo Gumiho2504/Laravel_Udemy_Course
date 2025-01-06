@@ -15,6 +15,47 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased container max-w-2xl mx-auto mt-4">
+
+        <nav class="mb-8 flex justify-between text-lg font-medium">
+            <ul class="flex space-x-2">
+                <li>
+                    <a href="{{route('jobs.index')}}">Home</a>
+                </li>
+
+            </ul>
+            <ul class="flex space-x-2">
+                @auth
+                    <li>
+                        {{auth()->user()->name ?? 'Anonymous'}}
+                    </li>
+                    <li>
+                        <form action="{{route('auth.destroy')}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                        <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-md text-sm">SignOut</button>
+                        </form>
+                    </li>
+                @else
+                    <a href="{{route('auth.create')}}" class="px-3 py-1 bg-indigo-500 text-white rounded-md text-sm">SingIn</a>
+                @endauth
+            </ul>
+
+
+        </nav>
+
+        @if (session()->has('success'))
+
+            <div role="alert"
+            class="my-8 rounded-md border-l4 border-green-500 bg-green-50 p-4 text-green-700">
+                <p class="font-bold">Success!</p>
+                <p>{{session('success')}}</p>
+            </div>
+
+        @endif
+
+
+
         {{$slot}}
+
     </body>
 </html>

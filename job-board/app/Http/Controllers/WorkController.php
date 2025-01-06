@@ -22,7 +22,7 @@ class WorkController extends Controller
 
         $jobs = Job::filter($filters);
 
-        dump(request()->all());
+        //dump(request()->all());
         return view('jobs.index' , data: ['jobs' => $jobs->paginate(10)]);
     }
 

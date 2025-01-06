@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Work as Job;
 
-class AuthController extends Controller
+class JobApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,31 +19,31 @@ class AuthController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Job $job)
     {
-        return view("auth.create");
+
+        return view(view: "auth.job_application.create" ,data:  ['job' => $job]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Job $job,Request $request)
     {
-        $request->validate(
+        $job->jobApplication()->create(
             [
-                'email' => 'required|email',
-                'password'=> 'required',
+
+                'user_id' => $request->user()->id,
+              ...$request->validate([
+                'expected_salary'=> 'required|min:1|max:1000000',
+              ])
             ]
         );
-        $credentials = $request->only('email','password');
-        $remember = $request->filled('remember');
 
-        if(Auth::attempt( $credentials, $remember )) {
-            //intended method use for
-            return redirect()->intended('/');
-        }else{
-            return redirect()->back()->withErrors(['email'=> 'Invalid Credentials']);
-        }
+        return redirect()->route('jobs.show',$job)
+        ->with([
+            'success'=> 'Your application has been sent successfully'
+        ]);
     }
 
     /**
@@ -73,11 +73,8 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy(string $id)
     {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        return redirect()->route('auth.create');
+        //
     }
 }
