@@ -6,25 +6,21 @@
             @csrf
 
             <div class="mb-4">
-                <label class="mb-2 block text-sm text-slate-900 font-medium" for="email">Email</label>
+                <x-label c for="email" :required="true">Email</x-label>
                <x-text-input name="email" placeholder="Enter email" type="email" />
-               @error('email')
-                  <p class="text-red-500">{{$message}}</p>
-               @enderror
+
             </div>
 
             <div class="mb-4">
-                <label class="mb-2 block text-sm text-slate-900 font-medium" for="password">Password</label>
+                <x-label for="password" :required="true">Password</x-label>
                <x-text-input name="password" placeholder="Enter password" type="password" />
-               @error('password')
-               <p class="text-red-500">{{$message}}</p>
-                @enderror
+
             </div>
 
             <div class="mb-8 flex justify-between text-sm font-medium">
                 <div>
                     <input type="checkbox" name="remember" id="remember" class="rounded-lg border border-slate-300">
-                    <label class="ml-2 text-sm font-medium text-slate-900" for="remember">Remember me</label>
+                    <x-label for="remember">Remember me</x-label>
                 </div>
 
                 <div>

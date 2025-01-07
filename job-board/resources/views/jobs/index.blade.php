@@ -40,9 +40,14 @@
 
     @forelse ($jobs as $job)
         <x-job-card class="mb-4" :$job>
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
                 <x-link-button :href="route('jobs.show', $job)">View</x-link-button>
-                <x-link-button :href="route('jobs.application.create', $job)">Apply</x-link-button>
+               @can('apply', $job)
+               <x-link-button :href="route('jobs.application.create', $job)">Apply</x-link-button>
+
+               @else
+               <div class="text-center text-sm font-medium text-green-300" >Applied!</div>
+               @endcan
             </div>
         </x-job-card>
     @empty

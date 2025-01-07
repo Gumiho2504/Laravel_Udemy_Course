@@ -2,27 +2,26 @@
 
 namespace App\Policies;
 
+use App\Models\Employer;
 use App\Models\User;
-use App\Models\Work as Job;
 use Illuminate\Auth\Access\Response;
 
-class JobPolicy
+class EmployerPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(?User $user): bool
+    public function viewAny(User $user): bool
     {
-
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Job $job): bool
+    public function view(User $user, Employer $employer): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -30,21 +29,21 @@ class JobPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return  null === $user->employer;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Job $job): bool
+    public function update(User $user, Employer $employer): bool
     {
-        return false;
+        return $employer->user_id  === $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Job $job): bool
+    public function delete(User $user, Employer $employer): bool
     {
         return false;
     }
@@ -52,7 +51,7 @@ class JobPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Job $job): bool
+    public function restore(User $user, Employer $employer): bool
     {
         return false;
     }
@@ -60,13 +59,8 @@ class JobPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Job $job): bool
+    public function forceDelete(User $user, Employer $employer): bool
     {
         return false;
-    }
-
-    public function apply(User $user , Job $job): bool{
-
-        return !$job->hasUserApplied($user);
     }
 }

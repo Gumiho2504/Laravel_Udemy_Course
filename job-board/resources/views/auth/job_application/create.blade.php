@@ -9,10 +9,16 @@
     <x-job-card :$job></x-job-card>
     <x-card>
        <h2 class=" mb-4 text-lg font-medium">You are applying for {{ $job->title }}</h2>
-       <form action="{{route('jobs.application.store', $job)}}" method="POST">
+       <form action="{{route('jobs.application.store', $job)}}" method="POST" enctype="multipart/form-data" >
         @csrf
-        <label for="expected_salary" class="mb-2 block text-sm text-slate-900 font-medium">Expected Salary</label>
+        <x-label for="expected_salary" :required="true">Expected Salary</x-label>
         <x-text-input type="number" name="expected_salary" />
+
+        <div class="my-4">
+            <x-label for="cv" :required="true">Upload Cv</x-label>
+            <x-text-input type="file" name="cv" />
+        </div>
+
         <x-button label="Apply" class="mt-4"/>
        </form>
     </x-card>

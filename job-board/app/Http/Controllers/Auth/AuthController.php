@@ -40,9 +40,10 @@ class AuthController extends Controller
 
         if(Auth::attempt( $credentials, $remember )) {
             //intended method use for
-            return redirect()->intended('/');
+            return redirect()->intended('/')
+            ->with('success',value: 'welcome back!');
         }else{
-            return redirect()->back()->withErrors(['email'=> 'Invalid Credentials']);
+            return redirect()->back()->with(key: ['error'=> 'Invalid Credentials']);
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Work as Job;
+use Illuminate\Support\Facades\Gate;
 
 class JobApplicationController extends Controller
 {
@@ -22,6 +23,8 @@ class JobApplicationController extends Controller
     public function create(Job $job)
     {
 
+        Gate::authorize("apply", $job);
+
         return view(view: "auth.job_application.create" ,data:  ['job' => $job]);
     }
 
@@ -30,19 +33,30 @@ class JobApplicationController extends Controller
      */
     public function store(Job $job,Request $request)
     {
-        $job->jobApplication()->create(
+        $validatedData = $request->validate([
+            'expected_salary'=> 'required|min:1|max:1000000',
+            'cv' => 'required|mimes:pdf,doc,docx|max:2048',
+        ]);
+
+        $file = $request->file('cv');
+        //$path = $file->storeAs('', $file->getClientOriginalName(),'');
+        $path = $file->store('cvs','public');
+        $job->jobApplications()->create(
             [
 
                 'user_id' => $request->user()->id,
-              ...$request->validate([
-                'expected_salary'=> 'required|min:1|max:1000000',
-              ])
+                'expected_salary' => $validatedData['expected_salary'],
+                'cv_path' => $path,
             ]
         );
 
-        return redirect()->route('jobs.show',$job)
+       // return redirect()->route('jobs.show',$job)
+       return redirect()->route('jobsapplication.index',
+       [
+        'applicants' => auth()->user()->jobApplications()->latest()->get()
+       ])
         ->with([
-            'success'=> 'Your application has been sent successfully'
+            'success'=> 'Your application has been sent successfully !'
         ]);
     }
 

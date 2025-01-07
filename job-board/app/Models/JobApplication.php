@@ -15,10 +15,11 @@ class JobApplication extends Model
         'user_id',
         'work_id',
         'expected_salary',
+        'cv_path',
     ] ;
 
     public function job():BelongsTo{
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(Job::class,'work_id');
     }
 
     public function user(): BelongsTo{

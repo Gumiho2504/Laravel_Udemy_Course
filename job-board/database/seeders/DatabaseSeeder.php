@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        for( $i = 0; $i < 20; $i++ ){
+        for( $i = 0; $i < 10; $i++ ){
             Employer::factory()->create([
                 "user_id"=> $users->pop()->id,
             ]);

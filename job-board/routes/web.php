@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\JobApplicationController;
+use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\MyJobController;
+use App\Http\Controllers\MyPostJobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkController;
+use App\Models\Employer;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +32,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('jobs.application', JobApplicationController::class)
     ->scoped()
     ->only('create','store');
+
+    Route::resource('jobsapplication', controller: MyJobController::class)
+    ->only([ 'index','destroy']);
+
+    Route::middleware('employer')->resource('my-jobs', MyPostJobController::class);
+
+
+    Route::resource('employer',controller: EmployerController::class)->only(['create','store']);
 });
 
 
