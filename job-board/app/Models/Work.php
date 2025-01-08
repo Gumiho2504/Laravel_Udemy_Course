@@ -8,12 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class Work extends Model
 {
     /** @use HasFactory<\Database\Factories\WorkFactory> */
-    use HasFactory;
+    use HasFactory ,SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'location',
+        'salary',
+        'description',
+        'experience_levels',
+        'category',
+    ];
+
+
+
     public static array $category = ["design","finance","hr","it","marketing","sales","management"];
     public static array $experience_levels =  [ 'internship','entry', 'intermediate','junior', 'senior'];
 

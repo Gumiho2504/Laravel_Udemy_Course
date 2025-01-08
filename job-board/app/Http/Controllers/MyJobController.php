@@ -14,8 +14,12 @@ class MyJobController extends Controller
     public function index()
     {
         // dump(auth()->user());
-        $applicants = auth()->user()->jobApplications()->latest()->get();
-       // dump($applicants);
+        $applicants = auth()->user()->jobApplications()->with(
+            [
+                'job' => fn($query) => $query->withTrashed()
+            ]
+        )->latest()->get();
+
          return view("auth.my-job-applicant.index",compact(var_name: "applicants"));
     }
 

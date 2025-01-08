@@ -2,62 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobRequest;
+use App\Models\Work as Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MyPostJobController extends Controller
-{/**
-     * Display a listing of the resource.
-     */
+{
     public function index()
     {
-        return view('my-job.index');
+        Gate::authorize("viewAnyEmployer", Job::class);
+        $jobs = auth()->user()->employer->jobs()->withTrashed()->latest()->get();
+        return view('my-job.index',compact('jobs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+/******  b77d243c-96c1-49d1-b996-aa339ac29eef  *******/
     public function create()
     {
-        //
+        Gate::authorize('create', Job::class);
+        return view('my-job.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(JobRequest $request)
     {
-        //
+
+        Gate::authorize('create');
+        auth()->user()->employer->jobs()->create($request->validated());
+        return redirect()->route('my-jobs.index')
+            ->with('success','Job created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function edit(Job $myJob)
     {
-        //
+        Gate::authorize('update', $myJob);
+        $job = $myJob;
+        return view('my-job.edit',compact('job'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+
+    public function update(JobRequest $request, Job $myJob)
     {
-        //
+
+        Gate::authorize('update');
+        $myJob->update(attributes: $request->validated());
+        return redirect()->route('my-jobs.index')
+            ->with('success',value: 'Job update successfully!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy()
+    public function destroy(Job $myJob)
     {
+        Gate::authorize('delete', $myJob);
+        $myJob->delete();
+        return redirect()->route('my-jobs.index')
+        ->with('success',value: 'Job deleted successfully!');
     }
 
 }

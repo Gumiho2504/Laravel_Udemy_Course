@@ -9,7 +9,9 @@
                 {{$job->employer->company_name}}
             </div>
             <div>{{$job->location}}</div>
-
+            @if ($job->deleled_at)
+                <div class="text-red-500">Deleled</div>
+            @endif
         </div>
 
         <div class="flex space-x-1 text-xs">

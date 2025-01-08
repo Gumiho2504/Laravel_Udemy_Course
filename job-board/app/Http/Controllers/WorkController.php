@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Work as Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class WorkController extends Controller
 {
@@ -12,6 +13,7 @@ class WorkController extends Controller
      */
     public function index()
     {
+        Gate::authorize("viewAny",Job::class);
         $filters = request()->only(
             'search',
             'min_salary',
@@ -26,25 +28,7 @@ class WorkController extends Controller
         return view('jobs.index' , data: ['jobs' => $jobs->paginate(10)]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Job $job)
     {
         return view('jobs.show',[
@@ -52,27 +36,5 @@ class WorkController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

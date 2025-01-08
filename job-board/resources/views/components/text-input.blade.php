@@ -12,7 +12,7 @@
         @endif
 
 
-        <input x-ref="input-{{$name}}" type="{{$type}}" name="{{ $name }}" value="{{ old($name,$value) }}" id="{{$name}}" placeholder="{{$placeholder}}"
+        <input x-ref="input-{{$name}}" type="{{$type}}" name="{{ $name }}" value="{{$value ?? old($name,$value) }}" id="{{$name}}" placeholder="{{$placeholder}}"
         @class([
             'block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
             'pr-8' => $formRef,
@@ -20,7 +20,7 @@
             'border-red-500' => $errors->has($name),
             ])>
     @else
-        <textarea name="input-{{$name}}" id="{{$name}}" cols="30" rows="10"
+        <textarea name="{{$name}}" id="{{$name}}" cols="30" rows="10"
         @class([
             'block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
             'pr-8' => $formRef,
